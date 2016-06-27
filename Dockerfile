@@ -15,3 +15,4 @@ RUN git clone --branch php7 https://github.com/php-memcached-dev/php-memcached /
   && docker-php-ext-configure memcached \
   && docker-php-ext-install memcached
   
+RUN usermod -G users www-data
