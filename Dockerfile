@@ -1,8 +1,8 @@
-FROM php:7.0.8-fpm
+FROM php:7.2-fpm
 
 COPY config/custom.ini /usr/local/etc/php/conf.d/
 
-RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev libpq-dev wget git libmemcached-dev \
+RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev libpq-dev wget git libmemcached-dev  \
     && docker-php-ext-install opcache \
     && docker-php-ext-install intl \
     && docker-php-ext-install mbstring \
@@ -14,6 +14,11 @@ RUN git clone --branch php7 https://github.com/php-memcached-dev/php-memcached /
   && cd /usr/src/php/ext/memcached \
   && docker-php-ext-configure memcached \
   && docker-php-ext-install memcached
+
+# install mongo
+RUN pecl install mongodb \
+    && docker-php-ext-enable mongodb
+
 
 RUN mkdir -p /opt/newrelic
 WORKDIR /opt/newrelic
